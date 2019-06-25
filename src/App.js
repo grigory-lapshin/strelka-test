@@ -1,10 +1,12 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <Container maxWidth="md">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -20,8 +22,11 @@ function App() {
         >
           Learn React
         </a>
+        <Button variant="contained" color="primary">
+          Hello World
+        </Button>
       </header>
-    </div>
+    </Container>
   );
 }
 
