@@ -1,7 +1,9 @@
 import React from 'react';
 import { styled } from '@material-ui/styles';
-import { Button, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import GradientButton from '../components/GradientButton';
 
 const CenteredContainer = styled(Container)({
   padding: '6em',
@@ -10,26 +12,11 @@ const CenteredContainer = styled(Container)({
   alignItems: 'center',
 });
 
-const Header = styled('h1')({
-  textAlign: 'center',
-  marginBottom: '2em',
-});
-
-const BackButton = styled(Button)({
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  border: 0,
-  borderRadius: 3,
-  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  color: 'white',
-  height: 48,
-  padding: '0 30px',
-});
-
 export default () => (
   <CenteredContainer>
     <Header>Thank you!</Header>
     <Link to="/">
-      <BackButton>Back to store</BackButton>
+      <GradientButton>Back to store</GradientButton>
     </Link>
   </CenteredContainer>
 );
