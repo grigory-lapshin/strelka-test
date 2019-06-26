@@ -2,7 +2,7 @@ import React from 'react';
 import { styled } from '@material-ui/styles';
 import { Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import Header1 from '../components/Header1';
 import GradientButton from '../components/GradientButton';
 
 const CenteredContainer = styled(Container)({
@@ -14,7 +14,7 @@ const CenteredContainer = styled(Container)({
 
 export default () => (
   <CenteredContainer>
-    <Header>Thank you!</Header>
+    <Header1>Thank you!</Header1>
     <Link to="/">
       <GradientButton>Back to store</GradientButton>
     </Link>

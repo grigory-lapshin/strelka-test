@@ -1,8 +1,7 @@
 import React from 'react';
 import { styled } from '@material-ui/styles';
-import { Button, Container, TextField } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import { Container, TextField } from '@material-ui/core';
+import Header1 from '../components/Header1';
 import GradientButton from '../components/GradientButton';
 
 const CenteredContainer = styled(Container)({
@@ -26,7 +25,7 @@ const FieldsContainer = styled('div')({
 
 export default () => (
   <CenteredContainer>
-    <Header>Checkout</Header>
+    <Header1>Checkout</Header1>
     <From autoComplete="off">
       <FieldsContainer>
         <TextField label="Name" />
