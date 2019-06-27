@@ -1,10 +1,11 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Card } from '@material-ui/core';
+import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import { addToCart, removeFromCart } from '../actions';
 import GradientButton from '../components/GradientButton';
-import products from '../assets/products.json';
 
 // const products = JSON.parse(productsRaw);
 
@@ -17,7 +18,7 @@ const Header = styled('div')({
 
 const ShopName = styled('h1')({});
 
-const Shelf = styled(GridList)({ width: '100%' });
+const ShelfContainer = styled(GridList)({ width: '100%' });
 
 const ItemCard = styled(Card)({
   margin: '4px',
@@ -51,7 +52,7 @@ const Price = styled('p')({ '&:before': { content: '"$"' }, alignSelf: 'flex-end
 const GridCard = styled(GridListTile)({});
 
 const Item = ({
-  id, product, description, price,
+  product, description, price, handleAddToCart,
 }) => (
   <ItemCard>
     <CardTopHalfContainer>
@@ -60,25 +61,39 @@ const Item = ({
     </CardTopHalfContainer>
     <CardBottomHalfContainer>
       <Price>{price}</Price>
-      <AddButton>Buy</AddButton>
+      <AddButton onClick={handleAddToCart}>Buy</AddButton>
     </CardBottomHalfContainer>
   </ItemCard>
 );
 
 const Cart = items => <div>Cart</div>;
 
-export default () => (
+const Shelf = ({ currentPage, pages, addToCart }) => (
   <>
     <Header>
       <ShopName>SHOP</ShopName>
       <Cart />
     </Header>
-    <Shelf cols={2} spacing={4} cellHeight={420}>
-      {products.map(p => (
-        <GridCard cols={1}>
-          <Item {...p} />
+    <ShelfContainer cols={2} spacing={4} cellHeight={420}>
+      {pages[currentPage].map(p => (
+        <GridCard cols={1} key={p.id}>
+          <Item {...p} handleAddToCart={() => addToCart(p.id)} />
         </GridCard>
       ))}
-    </Shelf>
+    </ShelfContainer>
   </>
 );
+
+const mapStateToProps = ({ products, cart }) => {
+  console.log(cart.addedIds, cart.quantityById);
+  return {
+    currentPage: products.currentPage,
+    pagesIndexes: products.pagesIndexes,
+    pages: products.pages,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { addToCart, removeFromCart },
+)(Shelf);

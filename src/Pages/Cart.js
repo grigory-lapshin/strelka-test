@@ -109,15 +109,12 @@ const Cart = ({
   );
 };
 
-const mapStateToProps = state => ({
-  ids: state.addedIds,
-  quantityById: state.quantityById,
-  // addedIds: getCartProducts(state),
-  // total: getTotal(state),
+const mapStateToProps = ({ cart }) => ({
+  ids: cart.addedIds,
+  quantityById: cart.quantityById,
 });
 
 export default connect(
   mapStateToProps,
   { addToCart, removeFromCart },
-  // { checkout },
 )(Cart);
