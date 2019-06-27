@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { addToCart, removeFromCart } from '../actions';
 import GradientButton from '../components/GradientButton';
 import Header1 from '../components/Header1';
+import { getTotal } from '../reducers';
 
 const CenteredContainer = styled(Container)({
   padding: '6em',
@@ -81,15 +82,15 @@ const TotalCostLabel = styled('h4')({ margin: '0 1.5em 0 0' });
 
 const TotalCostNumber = styled('p')({ '&:before': { content: '"$"' }, alignSelf: 'flex-end' });
 
-const TotalCost = () => (
+const TotalCost = ({ total }) => (
   <TotalCostContainer>
     <TotalCostLabel>Total cost:</TotalCostLabel>
-    <TotalCostNumber>100</TotalCostNumber>
+    <TotalCostNumber>{total}</TotalCostNumber>
   </TotalCostContainer>
 );
 
 const Cart = ({
-  ids, quantityById, addToCart, removeFromCart,
+  ids, quantityById, addToCart, removeFromCart, total,
 }) => {
   console.log(ids, quantityById);
   return (
@@ -103,16 +104,20 @@ const Cart = ({
         {/* <Item />
         <Item /> */}
       </ItemsContainer>
-      <TotalCost />
+      <TotalCost total={total} />
       <GradientButton>Checkout</GradientButton>
     </CenteredContainer>
   );
 };
 
-const mapStateToProps = ({ cart }) => ({
-  ids: cart.addedIds,
-  quantityById: cart.quantityById,
-});
+const mapStateToProps = (state) => {
+  const { cart } = state;
+  return {
+    ids: cart.addedIds,
+    quantityById: cart.quantityById,
+    total: getTotal(state),
+  };
+};
 
 export default connect(
   mapStateToProps,
