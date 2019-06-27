@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { addToCart, removeFromCart } from '../actions';
+import { getTotalNumber } from '../reducers';
 import GradientButton from '../components/GradientButton';
 
 // const products = JSON.parse(productsRaw);
@@ -66,13 +67,20 @@ const Item = ({
   </ItemCard>
 );
 
-const Cart = items => <div>Cart</div>;
+const Cart = ({ itemsInCart }) => (
+  <div>
+    <span>Cart</span>
+    {itemsInCart}
+  </div>
+);
 
-const Shelf = ({ currentPage, pages, addToCart }) => (
+const Shelf = ({
+  currentPage, pages, addToCart, itemsInCart,
+}) => (
   <>
     <Header>
       <ShopName>SHOP</ShopName>
-      <Cart />
+      <Cart itemsInCart={itemsInCart} />
     </Header>
     <ShelfContainer cols={2} spacing={4} cellHeight={420}>
       {pages[currentPage].map(p => (
@@ -84,14 +92,12 @@ const Shelf = ({ currentPage, pages, addToCart }) => (
   </>
 );
 
-const mapStateToProps = ({ products, cart }) => {
-  console.log(cart.addedIds, cart.quantityById);
-  return {
-    currentPage: products.currentPage,
-    pagesIndexes: products.pagesIndexes,
-    pages: products.pages,
-  };
-};
+const mapStateToProps = ({ products, cart }) => ({
+  currentPage: products.currentPage,
+  pagesIndexes: products.pagesIndexes,
+  pages: products.pages,
+  itemsInCart: getTotalNumber({ products, cart }),
+});
 
 export default connect(
   mapStateToProps,
