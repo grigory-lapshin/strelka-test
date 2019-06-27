@@ -7,7 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { addToCart, removeFromCart } from '../actions';
 import { getTotalNumber } from '../reducers';
 import GradientButton from '../components/GradientButton';
-import cartIcon from '../assets/cartIcon.png';
+import CartIcon from '../components/CartIcon';
 
 // const products = JSON.parse(productsRaw);
 
@@ -69,36 +69,13 @@ const Item = ({
   </ItemCard>
 );
 
-const CartContainer = styled('div')({ display: 'flex', position: 'relative' });
-
-const CartIcon = styled('img')({ width: 40, height: 40 });
-
-const ItemsInCart = styled('div')({
-  position: 'absolute',
-  top: -10,
-  right: -15,
-  textAlign: 'center',
-  color: 'white',
-  backgroundColor: 'red',
-  fontSize: '16px',
-  padding: '4px 8px',
-  borderRadius: '20px',
-});
-
-const Cart = ({ itemsInCart }) => (
-  <CartContainer>
-    <CartIcon src={cartIcon} />
-    <ItemsInCart>{itemsInCart}</ItemsInCart>
-  </CartContainer>
-);
-
 const Shelf = ({
   currentPage, pages, addToCart, itemsInCart,
 }) => (
   <>
     <Header>
       <ShopName>SHOP</ShopName>
-      <Cart itemsInCart={itemsInCart} />
+      <CartIcon itemsInCart={itemsInCart} />
     </Header>
     <ShelfContainer cols={2} spacing={4} cellHeight={420}>
       {pages[currentPage].map(p => (
