@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Card } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
+import { connect } from 'react-redux';
+import { addToCart, removeFromCart } from '../actions';
 import GradientButton from '../components/GradientButton';
 import Header1 from '../components/Header1';
 
@@ -34,11 +36,13 @@ const AmountContainer = styled('div')({
 
 const Amount = styled('p')({ margin: '0 8px' });
 
-const AmountWithControls = () => (
+const AmountWithControls = ({ handleAddToCart, handleRemoveFromCard }) => (
   <AmountContainer>
     <Sign>−</Sign>
     <Amount>N</Amount>
     <Sign>+</Sign>
+    <GradientButton onClick={handleRemoveFromCard}>Remove</GradientButton>
+    <GradientButton onClick={handleAddToCart}>Add</GradientButton>
   </AmountContainer>
 );
 
@@ -51,11 +55,14 @@ const ItemCard = styled(Card)({
   height: '90%',
 });
 
-const Item = () => (
+const Item = ({ handleAddToCart, handleRemoveFromCard }) => (
   <ItemCard>
     <ProductName>Name</ProductName>
     <CostContainer>
-      <AmountWithControls />
+      <AmountWithControls
+        handleAddToCart={handleAddToCart}
+        handleRemoveFromCard={handleRemoveFromCard}
+      />
       <Cost>100</Cost>
     </CostContainer>
   </ItemCard>
@@ -81,15 +88,36 @@ const TotalCost = () => (
   </TotalCostContainer>
 );
 
-export default () => (
-  <CenteredContainer>
-    <Header1>Cart</Header1>
-    <ItemsContainer>
-      <Item />
-      <Item />
-      <Item />
-    </ItemsContainer>
-    <TotalCost />
-    <GradientButton>Checkout</GradientButton>
-  </CenteredContainer>
-);
+const Cart = ({
+  ids, quantityById, addToCart, removeFromCart,
+}) => {
+  console.log(ids, quantityById);
+  return (
+    <CenteredContainer>
+      <Header1>Cart</Header1>
+      <ItemsContainer>
+        <Item
+          handleAddToCart={() => addToCart(13)}
+          handleRemoveFromCard={() => removeFromCart(13)}
+        />
+        {/* <Item />
+        <Item /> */}
+      </ItemsContainer>
+      <TotalCost />
+      <GradientButton>Checkout</GradientButton>
+    </CenteredContainer>
+  );
+};
+
+const mapStateToProps = state => ({
+  ids: state.addedIds,
+  quantityById: state.quantityById,
+  // addedIds: getCartProducts(state),
+  // total: getTotal(state),
+});
+
+export default connect(
+  mapStateToProps,
+  { addToCart, removeFromCart },
+  // { checkout },
+)(Cart);
