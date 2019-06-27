@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { styled } from '@material-ui/styles';
 import { Container, TextField } from '@material-ui/core';
 import Header1 from '../components/Header1';
-import GradientButton from '../components/GradientButton';
+import LinkedButton from '../components/LinkedButton';
+import { checkout } from '../actions';
 
 const CenteredContainer = styled(Container)({
   padding: '6em',
@@ -23,7 +25,7 @@ const FieldsContainer = styled('div')({
   marginBottom: '2em',
 });
 
-export default () => (
+const Checkout = ({ checkout }) => (
   <CenteredContainer>
     <Header1>Checkout</Header1>
     <From autoComplete="off">
@@ -32,7 +34,14 @@ export default () => (
         <TextField label="Email" />
         <TextField label="Phone" />
       </FieldsContainer>
-      <GradientButton disabled>Checkout</GradientButton>
+      <LinkedButton to="/thnx" onClick={() => checkout()}>
+        Checkout
+      </LinkedButton>
     </From>
   </CenteredContainer>
 );
+
+export default connect(
+  () => {},
+  { checkout },
+)(Checkout);

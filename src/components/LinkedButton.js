@@ -7,7 +7,10 @@ const CheckoutButtonTemplate = ({
 }) => (
   <GradientButton
     disabled={disabled}
-    onClick={event => (onClick && onClick(event)) || history.push(to)}
+    onClick={(event) => {
+      if (onClick) onClick(event);
+      history.push(to);
+    }}
   >
     {children}
   </GradientButton>
