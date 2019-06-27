@@ -9,11 +9,11 @@ const addedIds = (state = initialState.addedIds, action) => {
         return state;
       }
       return [...state, action.id];
-    case REMOVE_FROM_CART:
-      if (state.indexOf(action.id) === -1) {
-        return state;
-      }
-      return [...state.filter(i => i !== action.id)];
+    // case REMOVE_FROM_CART:
+    //   if (state.indexOf(action.id) === -1) {
+    //     return state;
+    //   }
+    //   return [...state.filter(i => i !== action.id)];
     default:
       return state;
   }
@@ -23,6 +23,11 @@ const quantityById = (state = initialState.quantityById, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       return { ...state, [action.id]: (state[action.id] || 0) + 1 };
+    case REMOVE_FROM_CART:
+      if (state[action.id] <= 1) {
+        return { ...state, [action.id]: 0 };
+      }
+      return { ...state, [action.id]: (state[action.id] || 0) - 1 };
     default:
       return state;
   }
