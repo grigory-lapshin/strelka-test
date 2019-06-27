@@ -87,12 +87,15 @@ const Shelf = ({
   </>
 );
 
-const mapStateToProps = ({ products, cart }) => ({
-  currentPage: products.currentPage,
-  pagesIndexes: products.pagesIndexes,
-  pages: products.pages,
-  itemsInCart: getTotalNumber({ products, cart }),
-});
+const mapStateToProps = ({ products, cart }) => {
+  console.log(cart);
+  return {
+    currentPage: products.currentPage,
+    pagesIndexes: products.pagesIndexes,
+    pages: products.pages,
+    itemsInCart: getTotalNumber({ products, cart }),
+  };
+};
 
 export default connect(
   mapStateToProps,

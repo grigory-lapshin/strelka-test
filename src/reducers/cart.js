@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { ADD_TO_CART, REMOVE_FROM_CART } from './actionTypes';
 
 const initialState = { addedIds: [], quantityById: {} };
@@ -37,13 +38,35 @@ export const getQuantity = (state, id) => state.quantityById[id] || 0;
 
 export const getAddedIds = state => state.addedIds;
 
-const cart = (state = initialState, action) => {
+const cart = ({ addedIds, quantityById } = initialState, action) => {
   switch (action.type) {
-    default:
+    case ADD_TO_CART:
+      if (addedIds.indexOf(action.id) !== -1) {
+        return {
+          addedIds,
+          quantityById: { ...quantityById, [action.id]: (quantityById[action.id] || 0) + 1 },
+        };
+      }
       return {
-        addedIds: addedIds(state.addedIds, action),
-        quantityById: quantityById(state.quantityById, action),
+        addedIds: [...addedIds, action.id],
+        quantityById: { ...quantityById, [action.id]: 1 },
       };
+    case REMOVE_FROM_CART:
+      if (addedIds.indexOf(action.id) === -1) {
+        return { addedIds, quantityById };
+      }
+      if (quantityById[action.id] && quantityById[action.id] === 1) {
+        return {
+          addedIds: addedIds.filter(i => i !== action.id),
+          quantityById: { ...quantityById, [action.id]: undefined },
+        };
+      }
+      return {
+        addedIds,
+        quantityById: { ...quantityById, [action.id]: quantityById[action.id] - 1 },
+      };
+    default:
+      return { addedIds, quantityById };
   }
 };
 
