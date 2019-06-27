@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import cartIcon from '../assets/cartIcon.png';
 
 const Container = styled('div')({ display: 'flex', position: 'relative' });
@@ -19,8 +20,10 @@ const ItemsInCart = styled('div')({
 });
 
 export default ({ itemsInCart }) => (
-  <Container>
-    <CartIcon src={cartIcon} />
-    <ItemsInCart>{itemsInCart}</ItemsInCart>
-  </Container>
+  <Link to="/cart">
+    <Container>
+      <CartIcon src={cartIcon} />
+      <ItemsInCart>{itemsInCart}</ItemsInCart>
+    </Container>
+  </Link>
 );
