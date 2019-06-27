@@ -13,8 +13,6 @@ const CostContainer = styled('div')({
 
 const Cost = styled('p')({ '&:before': { content: '"$"' }, alignSelf: 'flex-end' });
 
-const Sign = styled('span')({});
-
 const AmountContainer = styled('div')({
   display: 'flex',
   flexFlow: 'row no-wrap',

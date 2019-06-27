@@ -2,11 +2,13 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions';
 import GradientButton from '../components/GradientButton';
 import Header1 from '../components/Header1';
 import { getTotal, getAddedItems } from '../reducers';
 import Item from '../components/CartItem';
+import LinkedButton from '../components/LinkedButton';
 
 const CenteredContainer = styled(Container)({
   padding: '6em',
@@ -54,7 +56,9 @@ const Cart = ({
       ))}
     </ItemsContainer>
     <TotalCost total={total} />
-    <GradientButton>Checkout</GradientButton>
+    <LinkedButton to="/checkout" disabled={ids.length === 0}>
+      Checkout
+    </LinkedButton>
   </CenteredContainer>
 );
 
