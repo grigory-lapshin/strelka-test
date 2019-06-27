@@ -12,6 +12,8 @@ export const getTotal = state => getAddedIds(state)
   .reduce((total, id) => total + getProduct(state, id).price * getQuantity(state, id), 0)
   .toFixed(2);
 
+export const getAddedItems = state => fromCart.getAddedIds(state.cart).reduce((acc, id) => [...acc, getProduct(state, id)], []);
+
 export default combineReducers({
   cart,
   products,

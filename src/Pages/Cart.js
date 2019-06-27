@@ -1,11 +1,12 @@
 import React from 'react';
-import { Container, Card } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { addToCart, removeFromCart } from '../actions';
 import GradientButton from '../components/GradientButton';
 import Header1 from '../components/Header1';
-import { getTotal } from '../reducers';
+import { getTotal, getAddedItems } from '../reducers';
+import Item from '../components/CartItem';
 
 const CenteredContainer = styled(Container)({
   padding: '6em',
@@ -15,59 +16,6 @@ const CenteredContainer = styled(Container)({
 });
 
 const ItemsContainer = styled('div')({ display: 'flex', flexFlow: 'column' });
-
-const ProductName = styled('h2')({});
-
-const CostContainer = styled('div')({
-  display: 'flex',
-  flexFlow: 'row no-wrap',
-  justifyContent: 'space-between',
-});
-
-const Cost = styled('p')({ '&:before': { content: '"$"' }, alignSelf: 'flex-end' });
-
-const Sign = styled('span')({});
-
-const AmountContainer = styled('div')({
-  display: 'flex',
-  flexFlow: 'row no-wrap',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-});
-
-const Amount = styled('p')({ margin: '0 8px' });
-
-const AmountWithControls = ({ handleAddToCart, handleRemoveFromCard }) => (
-  <AmountContainer>
-    <Sign>−</Sign>
-    <Amount>N</Amount>
-    <Sign>+</Sign>
-    <GradientButton onClick={handleRemoveFromCard}>Remove</GradientButton>
-    <GradientButton onClick={handleAddToCart}>Add</GradientButton>
-  </AmountContainer>
-);
-
-const ItemCard = styled(Card)({
-  margin: '4px',
-  padding: '1em',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  height: '90%',
-});
-
-const Item = ({ handleAddToCart, handleRemoveFromCard }) => (
-  <ItemCard>
-    <ProductName>Name</ProductName>
-    <CostContainer>
-      <AmountWithControls
-        handleAddToCart={handleAddToCart}
-        handleRemoveFromCard={handleRemoveFromCard}
-      />
-      <Cost>100</Cost>
-    </CostContainer>
-  </ItemCard>
-);
 
 const TotalCostContainer = styled('div')({
   display: 'flex',
@@ -90,29 +38,30 @@ const TotalCost = ({ total }) => (
 );
 
 const Cart = ({
-  ids, quantityById, addToCart, removeFromCart, total,
-}) => {
-  console.log(ids, quantityById);
-  return (
-    <CenteredContainer>
-      <Header1>Cart</Header1>
-      <ItemsContainer>
+  ids, quantityById, addToCart, removeFromCart, total, items,
+}) => (
+  <CenteredContainer>
+    <Header1>Cart</Header1>
+    <ItemsContainer>
+      {items.map(i => (
         <Item
-          handleAddToCart={() => addToCart(13)}
-          handleRemoveFromCard={() => removeFromCart(13)}
+          {...i}
+          quantity={quantityById[i.id]}
+          key={i.id}
+          handleAddToCart={() => addToCart(i.id)}
+          handleRemoveFromCard={() => removeFromCart(i.id)}
         />
-        {/* <Item />
-        <Item /> */}
-      </ItemsContainer>
-      <TotalCost total={total} />
-      <GradientButton>Checkout</GradientButton>
-    </CenteredContainer>
-  );
-};
+      ))}
+    </ItemsContainer>
+    <TotalCost total={total} />
+    <GradientButton>Checkout</GradientButton>
+  </CenteredContainer>
+);
 
 const mapStateToProps = (state) => {
   const { cart } = state;
   return {
+    items: getAddedItems(state),
     ids: cart.addedIds,
     quantityById: cart.quantityById,
     total: getTotal(state),
