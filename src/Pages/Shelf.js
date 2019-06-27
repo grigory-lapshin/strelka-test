@@ -7,6 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import { addToCart, removeFromCart } from '../actions';
 import { getTotalNumber } from '../reducers';
 import GradientButton from '../components/GradientButton';
+import cartIcon from '../assets/cartIcon.png';
 
 // const products = JSON.parse(productsRaw);
 
@@ -15,6 +16,7 @@ const Header = styled('div')({
   display: 'flex',
   flexFlow: 'no-wrap',
   justifyContent: 'space-between',
+  alignItems: 'center',
 });
 
 const ShopName = styled('h1')({});
@@ -67,11 +69,27 @@ const Item = ({
   </ItemCard>
 );
 
+const CartContainer = styled('div')({ display: 'flex', position: 'relative' });
+
+const CartIcon = styled('img')({ width: 40, height: 40 });
+
+const ItemsInCart = styled('div')({
+  position: 'absolute',
+  top: -10,
+  right: -15,
+  textAlign: 'center',
+  color: 'white',
+  backgroundColor: 'red',
+  fontSize: '16px',
+  padding: '4px 8px',
+  borderRadius: '20px',
+});
+
 const Cart = ({ itemsInCart }) => (
-  <div>
-    <span>Cart</span>
-    {itemsInCart}
-  </div>
+  <CartContainer>
+    <CartIcon src={cartIcon} />
+    <ItemsInCart>{itemsInCart}</ItemsInCart>
+  </CartContainer>
 );
 
 const Shelf = ({
