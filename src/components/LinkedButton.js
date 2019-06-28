@@ -1,15 +1,26 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { isValid, getFormValues } from 'redux-form';
 import GradientButton from './GradientButton';
+import { checkout } from '../actions';
 
 const CheckoutButtonTemplate = ({
-  history, to, onClick, children, disabled,
+  history,
+  to,
+  onClick,
+  children,
+  disabled,
+  valid,
+  checkout,
+  values,
 }) => (
   <GradientButton
     disabled={disabled}
     onClick={(event) => {
       if (onClick) onClick(event);
-      history.push(to);
+      if (valid && checkout) checkout();
+      if (to) history.push(to);
     }}
   >
     {children}
@@ -18,4 +29,11 @@ const CheckoutButtonTemplate = ({
 
 const CheckoutButton = withRouter(CheckoutButtonTemplate);
 
-export default CheckoutButton;
+export default connect(
+  state => ({ valid: isValid('contact')(state), values: getFormValues('contact')(state) }),
+  {
+    checkout,
+  },
+)(CheckoutButton);
+
+// export default CheckoutButton;
