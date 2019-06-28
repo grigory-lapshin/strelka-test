@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
+
 import cart, * as fromCart from './cart';
 import products, * as fromProducts from './products';
 
@@ -17,4 +19,5 @@ export const getAddedItems = state => fromCart.getAddedIds(state.cart).reduce((a
 export default combineReducers({
   cart,
   products,
+  form: formReducer,
 });
