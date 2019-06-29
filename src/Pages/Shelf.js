@@ -1,10 +1,10 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
-import { Card } from '@material-ui/core';
+import { Card, Button } from '@material-ui/core';
 import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import { addToCart, removeFromCart } from '../actions';
+import { addToCart, removeFromCart, selectPage } from '../actions';
 import { getTotalNumber } from '../reducers';
 import GradientButton from '../components/GradientButton';
 import CartIcon from '../components/CartIcon';
@@ -69,8 +69,27 @@ const Item = ({
   </ItemCard>
 );
 
+const SelectorContainer = styled('div')({
+  width: '100%',
+  display: 'flex',
+  flexFlow: 'row wrap',
+  justifyContent: 'space-around',
+});
+
+const PageLabel = styled(Button)({});
+
+const PagesSelector = ({ pagesIndexes, currentPage, selectPage }) => (
+  <SelectorContainer>
+    {pagesIndexes.map((p, i) => (
+      <PageLabel size="small" disabled={currentPage === i} onClick={() => selectPage(p)}>
+        {p + 1}
+      </PageLabel>
+    ))}
+  </SelectorContainer>
+);
+
 const Shelf = ({
-  currentPage, pages, addToCart, itemsInCart,
+  currentPage, pages, addToCart, itemsInCart, pagesIndexes, selectPage,
 }) => (
   <>
     <Header>
@@ -83,6 +102,11 @@ const Shelf = ({
           <Item {...p} handleAddToCart={() => addToCart(p.id)} />
         </GridCard>
       ))}
+      <PagesSelector
+        pagesIndexes={pagesIndexes}
+        currentPage={currentPage}
+        selectPage={selectPage}
+      />
     </ShelfContainer>
   </>
 );
@@ -96,5 +120,5 @@ const mapStateToProps = ({ products, cart }) => ({
 
 export default connect(
   mapStateToProps,
-  { addToCart, removeFromCart },
+  { addToCart, removeFromCart, selectPage },
 )(Shelf);

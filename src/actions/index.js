@@ -1,4 +1,9 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT } from '../reducers/actionTypes';
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  CHECKOUT,
+  SHOW_PRODUCT_PAGE,
+} from '../reducers/actionTypes';
 
 /* eslint-disable import/prefer-default-export */
 
@@ -13,3 +18,8 @@ export const removeFromCart = id => ({
 });
 
 export const checkout = () => ({ type: CHECKOUT });
+
+export const selectPage = page => ({
+  type: SHOW_PRODUCT_PAGE,
+  page,
+});
