@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { styled } from '@material-ui/styles';
 import { Container, TextField } from '@material-ui/core';
-import {
-  Field, reduxForm, submit as submitAction, isPristine, isInvalid,
-} from 'redux-form';
 import Header1 from '../components/Header1';
 import { checkout } from '../actions';
 import ContactsForm from '../components/ContactsForm';
@@ -23,9 +20,8 @@ const Checkout = () => (
   </CenteredContainer>
 );
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = () => ({
   checkout,
-  onSubmit: () => dispatch(submitAction('contact')),
 });
 
 export default connect(
